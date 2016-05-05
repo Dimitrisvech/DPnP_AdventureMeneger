@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Adventure Manager</string>
+    <!--Labels-->
+    <string name="login_label">Log In</string>
+    <string name="userName_label">User name</string>
+    <string name="password_label">Password</string>
+    <string name="NoChars_label">No characters available.</string>
+
+    <!--Buttons-->
+    <string name="submit_button">Submit</string>
+    <string name="choose_button">Choose</string>
+    <string name="addNewChar_button">Add New Character</string>
+    <!--Errors-->
+    <string name="username_error">Error - Username invalid</string>
+    <string name="password_error">Error - Password invalid</string>
+    <string name="login_error">Error - Username/Password incorrect</string>
+    <!--AutoGen-->
+    <string name="title_activity_main">Adventure Manager</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="appbar_scrolling_view_behavior">test</string>
+
+</resources>
