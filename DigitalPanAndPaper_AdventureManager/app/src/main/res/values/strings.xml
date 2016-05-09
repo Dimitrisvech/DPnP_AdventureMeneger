@@ -5,10 +5,11 @@
     <string name="userName_label">User name</string>
     <string name="password_label">Password</string>
     <string name="NoChars_label">No characters available.</string>
-
+    <string name="PlaceHolder_label">.....Place holder.....</string>
     <!--Buttons-->
     <string name="submit_button">Submit</string>
     <string name="choose_button">Choose</string>
+    <string name="delete_button">Delete</string>
     <string name="addNewChar_button">Add New Character</string>
     <!--Errors-->
     <string name="username_error">Error - Username invalid</string>

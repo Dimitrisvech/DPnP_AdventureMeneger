@@ -38,7 +38,11 @@
             android:layout_height="wrap_content"
             android:text="@string/addNewChar_button"
 
+            android:background="@drawable/button_green"
+
             />
+
+
     </LinearLayout>
 </ScrollView>
 </RelativeLayout>

@@ -30,6 +30,10 @@ public class CharChooserActivity extends AppCompatActivity {
         DisplayAllChars();
     }
 
+    public void removeChar(String name){
+        _dataAgent.deleteCharFromUser(Domain.getUser(),name);
+    }
+
     private void Init() {
         _container = (LinearLayout)findViewById(R.id.container);
         _dataAgent= DataAgentManager.getDataAgent();
@@ -53,12 +57,24 @@ public class CharChooserActivity extends AppCompatActivity {
     }
     private void DisplayChar(String cNameRow,String cDetailRow,String charName){
         final Intent viewChange = new Intent(this,MainActivity.class);
+        final String characterName = charName;
         viewChange.putExtra("CharacterName",charName);
         LayoutInflater layoutInflater =
                 (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View charView = layoutInflater.inflate(R.layout.character_chooser_element, null);
         TextView charNameRow = (TextView)charView.findViewById(R.id.charName);
         charNameRow.setText(cNameRow);
+        charNameRow.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Button buttonDelete = (Button)charView.findViewById(R.id.delete);
+                if (buttonDelete.getVisibility()==View.GONE)
+                    buttonDelete.setVisibility(View.VISIBLE);
+                else
+                    buttonDelete.setVisibility(View.GONE);
+                return true;
+            }
+        });
         TextView charDetailRow = (TextView)charView.findViewById(R.id.charDetail);
         charDetailRow.setText(cDetailRow);
         Button buttonChoose = (Button)charView.findViewById(R.id.choose);
@@ -68,6 +84,14 @@ public class CharChooserActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //start intent and change layout, pass the character id.
                 startActivity(viewChange);
+            }});
+        Button buttonDelete = (Button)charView.findViewById(R.id.delete);
+        buttonDelete.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                removeChar(characterName);
+                ((LinearLayout)charView.getParent()).removeView(charView);
             }});
         _container.addView(charView);
     }

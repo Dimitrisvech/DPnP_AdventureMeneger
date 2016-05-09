@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="Error">#ffff0000</color>
+    <color name="characterBG">#444444</color>
+    <color name="whiteText">#dddddd</color>
+    <color name="okGreen">#00bb00</color>
 </resources>
