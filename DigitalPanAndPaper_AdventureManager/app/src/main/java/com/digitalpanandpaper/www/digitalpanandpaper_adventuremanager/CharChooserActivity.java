@@ -38,6 +38,15 @@ public class CharChooserActivity extends AppCompatActivity {
         _container = (LinearLayout)findViewById(R.id.container);
         _dataAgent= DataAgentManager.getDataAgent();
         _characterList=_dataAgent.getAllCharsByUser(Domain.getUser());
+
+        final Intent viewChange = new Intent(this,AddCharacterActivity.class);
+        Button buttonAddChar = (Button)findViewById(R.id.addNewCharButton);
+        buttonAddChar.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                startActivity(viewChange);
+            }});
     }
 
     private void DisplayAllChars(){
@@ -55,6 +64,7 @@ public class CharChooserActivity extends AppCompatActivity {
         }
 
     }
+
     private void DisplayChar(String cNameRow,String cDetailRow,String charName){
         final Intent viewChange = new Intent(this,MainActivity.class);
         final String characterName = charName;

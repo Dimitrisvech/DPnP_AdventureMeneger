@@ -16,7 +16,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".CharChooserActivity"></activity>
+        <activity android:name=".CharChooserActivity" />
+        <activity android:name=".AddCharacterActivity" />
+        <activity android:name=".AddCharacterStatsActivity"></activity>
     </application>
 
 </manifest>

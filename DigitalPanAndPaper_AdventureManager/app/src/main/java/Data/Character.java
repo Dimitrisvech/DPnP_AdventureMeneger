@@ -1,5 +1,6 @@
 package Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumMap;
 
@@ -7,7 +8,7 @@ import java.util.EnumMap;
 /**
  * Created by BlackDragon on 04/04/2016.
  */
-public class Character {
+public class Character implements Serializable {
     //region Properties
     private String Name;
     private String SurName;
