@@ -43,8 +43,10 @@ public class AddCharacterActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(checkCharacterDetails())
+                if(checkCharacterDetails()) {
+                    viewChange.putExtra("character",newCharacter);
                     startActivity(viewChange);
+                }
 
             }});
     }
