@@ -28,7 +28,6 @@ public class AddCharacterActivity extends AppCompatActivity {
     private void Init() {
         _dataAgent= DataAgentManager.getDataAgent();
 
-        //final Intent viewChange = new Intent(this,CharChooserActivity.class);
         Button buttonBack = (Button)findViewById(R.id.backButton);
         buttonBack.setOnClickListener(new View.OnClickListener(){
 
@@ -44,7 +43,7 @@ public class AddCharacterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(checkCharacterDetails()) {
-                    viewChange.putExtra("character",newCharacter);
+                    _dataAgent.setLocalTemporaryCharacter(newCharacter);
                     startActivity(viewChange);
                 }
 
