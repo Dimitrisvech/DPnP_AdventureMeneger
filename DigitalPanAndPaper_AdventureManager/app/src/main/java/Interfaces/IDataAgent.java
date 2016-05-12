@@ -36,4 +36,16 @@ public interface IDataAgent {
      * @param character The character to insert or update
      */
     void updateOrInsertCharOfUser(String username,Character character);
+
+    /**
+     * Saves a local temp character
+     * @param character the character
+     */
+    void setLocalTemporaryCharacter(Character character);
+
+    /**
+     * Gets the local temp character or null if not exists
+     * @return Temp character saved by setLocalTemporaryCharacter()
+     */
+    Character getLocalTemporaryCharacter();
 }
