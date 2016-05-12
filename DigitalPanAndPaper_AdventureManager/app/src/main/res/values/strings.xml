@@ -6,6 +6,7 @@
     <string name="password_label">Password</string>
     <string name="NoChars_label">No characters available.</string>
     <string name="PlaceHolder_label">.....Place holder.....</string>
+    <string name="label_short_placeHolder">..0x0..</string>
     <string name="name_label">Name: </string>
     <string name="surName_label">Surname: </string>
     <string name="Race_label">Race: </string>
@@ -16,6 +17,13 @@
     <string name="label_int">INT</string>
     <string name="label_wis">WIS</string>
     <string name="label_cha">CHA</string>
+    <string name="label_inventory">Inventory: </string>
+    <string name="label_equipment">Equipment: </string>
+    <string name="label_hp">HP: </string>
+    <string name="label_mana">Mana: </string>
+    <string name="label_ac">AC: </string>
+
+
     <!--Titles-->
     <string name="New_character_title">Create new character</string>
     <string name="title_Character_Details">Character details</string>
@@ -27,6 +35,8 @@
     <string name="button_next">Next</string>
     <string name="button_back">Back</string>
     <string name="button_save">Save</string>
+    <string name="button_Manage">Manage...</string>
+
 
     <!--Errors-->
     <string name="username_error">Error - Username invalid</string>
