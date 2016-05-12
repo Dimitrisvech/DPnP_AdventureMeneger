@@ -5,6 +5,7 @@ package GameLogic;
  */
 public class CharacterLogic {
 
+    //TODO make an Interface and a Manager to support different rule sets.
     public static int MaxStatValue = 100;
     public static int MinStatValue = 0;
     public static int ZeroBonusValue = 10;
