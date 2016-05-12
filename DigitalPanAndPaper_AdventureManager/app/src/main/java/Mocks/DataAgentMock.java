@@ -60,4 +60,16 @@ public class DataAgentMock implements IDataAgent {
             deleteCharFromUser(username,c.getName());
         list.add(character);
     }
+
+    private Character _tempChar;
+
+    @Override
+    public void setLocalTemporaryCharacter(Character character) {
+        this._tempChar = character;
+    }
+
+    @Override
+    public Character getLocalTemporaryCharacter() {
+        return this._tempChar;
+    }
 }
