@@ -6,7 +6,7 @@ package Data;
 public class Domain {
     //region ENUMs
     public enum Stat{
-        STR,DEX,CON,WIS,INT,CHA,LUCK
+        STR,DEX,CON,WIS,INT,CHA
     }
 
     //endregion
