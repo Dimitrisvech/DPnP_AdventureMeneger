@@ -18,7 +18,8 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".CharChooserActivity" />
         <activity android:name=".AddCharacterActivity" />
-        <activity android:name=".AddCharacterStatsActivity"></activity>
+        <activity android:name=".AddCharacterStatsActivity" />
+        <activity android:name=".CharacterViewActivity"></activity>
     </application>
 
 </manifest>
