@@ -26,8 +26,8 @@ public class Character implements Serializable {
 
     private World world;
     private EnumMap<Domain.Stat,Integer> Stats;
-    private Skills skills;
-    //Need to add Skills, Equipped items, Inventory...
+
+    //TODO Need to add  Equipped items, Inventory...
 
     //region Getters & Setters
     public String getOccupation() {
@@ -130,7 +130,6 @@ public class Character implements Serializable {
         MaxMana = maxMana;
         AC = ac;
         Stats=new EnumMap<Domain.Stat,Integer>(Domain.Stat.class);
-        skills=new Skills();
         world=new World();
         Exp=0;
     }
@@ -183,17 +182,6 @@ public class Character implements Serializable {
 
     //endregion
 
-    //region Skills
-    public void addSkill(String name,String desc,int diceType,Domain.Stat stat){
-        skills.addSkill( name, desc, diceType, stat);
-    }
 
-    public void clearAllSkills(){
-        skills.clearList();
-    }
 
-    public ArrayList<Skill> getSkills(){
-        return skills.getSkills();
-    }
-    //endregion
 }
