@@ -2,6 +2,7 @@ package Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.EnumMap;
 
 
@@ -181,7 +182,17 @@ public class Character implements Serializable {
     }
 
     //endregion
+    /*Comparator for sorting the list by Student Name*/
+    public static Comparator<Character> CharNameComparator = new Comparator<Character>() {
 
+        public int compare(Character c1, Character c2) {
+            String CharacterName1 = c1.getName().toUpperCase();
+            String CharacterName2 = c2.getName().toUpperCase();
 
+            //ascending order
+            return CharacterName1.compareTo(CharacterName2);
 
+            //descending order
+            //return StudentName2.compareTo(StudentName1);
+        }};
 }

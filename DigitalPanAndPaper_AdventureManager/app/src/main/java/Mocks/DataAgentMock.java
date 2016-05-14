@@ -1,6 +1,7 @@
 package Mocks;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import Data.Character;
 import Data.World;
@@ -38,6 +39,7 @@ public class DataAgentMock implements IDataAgent {
 
     @Override
     public ArrayList<Character> getAllCharsByUser(String username) {
+        Collections.sort(list,Character.CharNameComparator);
         return list;
     }
 
