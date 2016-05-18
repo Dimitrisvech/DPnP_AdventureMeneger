@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import Data.Character;
+import Data.Domain;
 import Data.World;
 import Interfaces.IDataAgent;
 
@@ -17,10 +18,18 @@ public class DataAgentMock implements IDataAgent {
         return ourInstance;
     }
     ArrayList<Character> list;
+
     private DataAgentMock() {
         list = new ArrayList<>();
         for(int i=0;i<7;i++){
             Character tempChar = new Character("Bob_"+i,"Sponge", "Sponger", "Idiot_"+i, 100, 100, 10);
+            tempChar.setStat(Domain.Stat.STR,12);
+            tempChar.setStat(Domain.Stat.DEX,12);
+            tempChar.setStat(Domain.Stat.CON,12);
+            tempChar.setStat(Domain.Stat.INT,12);
+            tempChar.setStat(Domain.Stat.WIS,12);
+            tempChar.setStat(Domain.Stat.CHA,12);
+
             World tempWorld = new World("Earth_"+i,"abc");
             tempChar.setWorld(tempWorld);
             list.add(tempChar);
