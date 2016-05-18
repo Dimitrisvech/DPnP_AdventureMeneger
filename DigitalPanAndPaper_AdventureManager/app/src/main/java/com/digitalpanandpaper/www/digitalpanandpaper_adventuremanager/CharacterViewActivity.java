@@ -130,7 +130,7 @@ public class CharacterViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(CharacterViewActivity.this, "Character saved!", Toast.LENGTH_SHORT).show();
-                _dataAgent.updateOrInsertCharOfUser(Domain.getUser(),_char);
+                _dataAgent.updateOrInsertCharOfUser(Domain.getUser().getUsername(),_char);
                 Intent intent = new Intent(getApplicationContext(), CharChooserActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

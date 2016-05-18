@@ -35,13 +35,13 @@ public class CharChooserActivity extends AppCompatActivity {
     }
 
     public void removeChar(String name){
-        _dataAgent.deleteCharFromUser(Domain.getUser(),name);
+        _dataAgent.deleteCharFromUser(Domain.getUser().getUsername(),name);
     }
 
     private void Init() {
         _container = (LinearLayout)findViewById(R.id.container);
         _dataAgent= DataAgentManager.getDataAgent();
-        _characterList=_dataAgent.getAllCharsByUser(Domain.getUser());
+        _characterList=_dataAgent.getAllCharsByUser(Domain.getUser().getUsername());
 
         final Intent viewChange = new Intent(this,AddCharacterActivity.class);
         Button buttonAddChar = (Button)findViewById(R.id.addNewCharButton);

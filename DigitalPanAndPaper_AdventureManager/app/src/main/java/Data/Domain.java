@@ -11,11 +11,12 @@ public class Domain {
 
     //endregion
 
-    private static String _user;
-    public static String getUser(){
+    private static User _user;
+    public static User getUser(){
         return _user;
     }
-    public static void setUser(String user){
+    public static void setUser(User user){
         _user=user;
     }
+
 }
