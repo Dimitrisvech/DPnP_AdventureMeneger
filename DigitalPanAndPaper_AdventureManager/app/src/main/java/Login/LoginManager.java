@@ -8,7 +8,10 @@ import Mocks.LoginMock;
  * This is the class that will be changed after mocks will not be used anymore.
  */
 public class LoginManager {
-    public static ILogin getLogin(){
+    /*public static ILogin getLogin(){
         return LoginMock.getInstance();
+    }*/
+    public static ILogin getLogin(){
+        return MySqlLogin.getInstance();
     }
 }

@@ -14,17 +14,16 @@ public interface ILogin {
 
     /**
      * Check if the username is up to standard (Min characters and etc...)
-     * @param username
+     * @param username username
      * @return true - if OK
      */
     boolean isUserOk(String username);
 
     /**
      * Attempt log in
-      * @param username
-     * @param password
-     * @return true - if successful
+      * @param username username
+     * @param password password
      */
-    boolean login(String username,String password);
+    void login(String username,String password);
 
 }

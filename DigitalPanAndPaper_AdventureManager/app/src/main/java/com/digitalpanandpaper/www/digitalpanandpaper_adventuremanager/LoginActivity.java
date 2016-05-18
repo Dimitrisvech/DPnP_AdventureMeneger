@@ -1,5 +1,7 @@
 package com.digitalpanandpaper.www.digitalpanandpaper_adventuremanager;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,11 +15,14 @@ import Login.LoginManager;
 
 public class LoginActivity extends AppCompatActivity {
 
-
+    public static Context context;
+    public static Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        context=this;
+        activity=this;
     }
 
     public void login(View view){
@@ -30,17 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         String passWord = password.getText().toString();
         if (login.isUserOk(userName))
             if (login.isPassOk(passWord))
-                if (login.login(userName,passWord))
-                {
-                    Domain.setUser(userName);
-                    Intent viewChange = new Intent(this,CharChooserActivity.class);
-                    startActivity(viewChange);
-                }
-                else //login failed
-                {
-                    error.setText(R.string.login_error);
-                    error.setVisibility(View.VISIBLE);
-                }
+                login.login(userName,passWord);
+
             else //password invalid
             {
                 error.setText(R.string.password_error);
