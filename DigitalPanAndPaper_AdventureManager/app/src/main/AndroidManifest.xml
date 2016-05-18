@@ -20,6 +20,9 @@
         <activity android:name=".AddCharacterActivity" />
         <activity android:name=".AddCharacterStatsActivity" />
         <activity android:name=".CharacterViewActivity"></activity>
+
     </application>
+    <!--  Internet Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
