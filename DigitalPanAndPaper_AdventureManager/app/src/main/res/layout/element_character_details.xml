@@ -5,6 +5,25 @@
     android:layout_height="wrap_content"
     >
     <LinearLayout
+        android:id="@+id/characterDetailsLayoutName"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_label"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/PlaceHolder_label"
+            android:textSize="20sp"/>
+    </LinearLayout>
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -206,6 +225,7 @@
             android:textSize="20sp"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/characterDetailsLayoutInv"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

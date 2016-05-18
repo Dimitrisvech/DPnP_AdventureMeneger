@@ -36,7 +36,7 @@
                 android:layout_height="match_parent"
                 >
 
-                <LinearLayout
+                <ScrollView
                     android:id="@+id/Character"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -44,39 +44,24 @@
 
                     >
 
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="char"
-                        android:id="@+id/tabCharName"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="20sp"
-                        android:textSize="30sp"/>
-                </LinearLayout>
+                </ScrollView>
 
-                <LinearLayout
+                <ScrollView
                     android:id="@+id/Inventory"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="inv"
-                        android:id="@+id/button2"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
 
-                <LinearLayout
+                </ScrollView>
+
+                <ScrollView
                     android:id="@+id/Combat"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical">
+
+                </ScrollView>
             </FrameLayout>
         </LinearLayout>
     </TabHost>
