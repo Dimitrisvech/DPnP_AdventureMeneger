@@ -32,7 +32,7 @@ public class LoginBackgroundWorker extends AsyncTask<String,Void,String> {
     String password;
     ProgressDialog pDialog;
 
-    private final String login_url = "http://192.168.1.12/android_connect/get_user_by_name.php";
+
 
     public LoginBackgroundWorker(Context ctx) {
         context = ctx;
@@ -40,6 +40,8 @@ public class LoginBackgroundWorker extends AsyncTask<String,Void,String> {
     @Override
     protected String doInBackground(String... params) {
 
+        final String local_login_url = "http://192.168.1.12/android_connect/get_user_by_name.php";
+        final String global_login_url = "http://37.142.201.27/android_connect/get_user_by_name.php";
         userName = params[0];
         password = params[1];
         //String phoneNumber = arg0[3];
@@ -58,7 +60,7 @@ public class LoginBackgroundWorker extends AsyncTask<String,Void,String> {
             //data += "&phonenumber=" + URLEncoder.encode(phoneNumber, "UTF-8");
             //data += "&emailaddress=" + URLEncoder.encode(emailAddress, "UTF-8");
 
-            link = login_url + data;
+            link = global_login_url + data;
             URL url = new URL(link);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
