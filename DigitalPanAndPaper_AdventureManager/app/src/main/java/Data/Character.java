@@ -11,6 +11,8 @@ import java.util.EnumMap;
  */
 public class Character implements Serializable {
     //region Properties
+    private int cid;
+    private int uid;
     private String Name;
     private String SurName;
     private String Race;
@@ -18,19 +20,36 @@ public class Character implements Serializable {
 
 
 
-    private int Exp;
+
     private int Health;
     private int MaxHealth;
     private int Mana;
     private int MaxMana;
     private int AC;
 
-    private World world;
+
     private EnumMap<Domain.Stat,Integer> Stats;
 
     //TODO Need to add  Equipped items, Inventory...
 
     //region Getters & Setters
+
+    public int getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
     public String getOccupation() {
         return Occupation;
     }
@@ -103,24 +122,13 @@ public class Character implements Serializable {
         this.AC = AC;
     }
 
-    public int getExp() {return Exp;}
-
-    public void setExp(int exp) {Exp = exp;}
-
-    public World getWorld() {
-        return world;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
-    }
 
     //endregion
 
     //endregion
     //region Constructors
 
-    public Character(String name, String surName, String race, String occupation, int maxHealth, int maxMana, int ac) {
+    public Character(int cid,int uid,String name, String surName, String race, String occupation, int maxHealth, int maxMana, int ac) {
         Name = name;
         SurName = surName;
         Race = race;
@@ -130,23 +138,22 @@ public class Character implements Serializable {
         Mana = maxMana;
         MaxMana = maxMana;
         AC = ac;
-        Stats=new EnumMap<Domain.Stat,Integer>(Domain.Stat.class);
-        world=new World();
-        Exp=0;
+        Stats=new EnumMap<>(Domain.Stat.class);
+
     }
 
-    public Character(String name, String surName, String race, String occupation, int maxHealth, int maxMana, int ac,EnumMap<Domain.Stat,Integer> stats){
-        this(name,  surName,  race,  occupation,  maxHealth,  maxMana,  ac);
+    public Character(int cid,int uid,String name, String surName, String race, String occupation, int maxHealth, int maxMana, int ac,EnumMap<Domain.Stat,Integer> stats){
+        this( cid, uid,name,  surName,  race,  occupation,  maxHealth,  maxMana,  ac);
         initStats(stats);
     }
 
-    public Character(String name, String surName, String race, String occupation,EnumMap<Domain.Stat,Integer> stats){
-        this(name,  surName,  race,  occupation,  1,  1,  1);
+    public Character(int cid,int uid,String name, String surName, String race, String occupation,EnumMap<Domain.Stat,Integer> stats){
+        this( cid, uid,name,  surName,  race,  occupation,  1,  1,  1);
         initStats(stats);
     }
     //Constructor for NPC's
-    public Character(String race, String occupation,String NpcNumber, int maxHealth, int maxMana, int ac) {
-        this(race+occupation+"_"+NpcNumber,"",race,  occupation,  maxHealth,  maxMana,  ac);
+    public Character(int cid,String race, String occupation,String NpcNumber, int maxHealth, int maxMana, int ac) {
+        this(cid,-1,race+occupation+"_"+NpcNumber,"",race,  occupation,  maxHealth,  maxMana,  ac);
     }
 
     //endregion
@@ -193,6 +200,6 @@ public class Character implements Serializable {
             return CharacterName1.compareTo(CharacterName2);
 
             //descending order
-            //return StudentName2.compareTo(StudentName1);
+            //return CharacterName2.compareTo(CharacterName1);
         }};
 }
