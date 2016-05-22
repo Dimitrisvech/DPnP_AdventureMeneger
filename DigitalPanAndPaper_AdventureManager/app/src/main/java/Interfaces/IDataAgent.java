@@ -1,6 +1,8 @@
 package Interfaces;
 
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
 import Data.Character;
@@ -18,10 +20,9 @@ public interface IDataAgent {
 
     /**
      * Gets all characters from the user
-     * @param username The username
      * @return Arraylist of character models
      */
-    ArrayList<Character> getAllCharsByUser(String username);
+    ArrayList<Character> getAllCharsByUser();
 
     /**
      * Deletes character from a user
