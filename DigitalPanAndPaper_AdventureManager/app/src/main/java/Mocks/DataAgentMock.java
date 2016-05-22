@@ -1,5 +1,7 @@
 package Mocks;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -11,10 +13,10 @@ import Interfaces.IDataAgent;
 /**
  * Created by Dimas on 04-May-16.
  */
-public class DataAgentMock implements IDataAgent {
+public class DataAgentMock {
     private static DataAgentMock ourInstance = new DataAgentMock();
 
-    public static DataAgentMock getInstance() {
+    public static DataAgentMock getInstance(Context ctx) {
         return ourInstance;
     }
     ArrayList<Character> list;
@@ -22,7 +24,7 @@ public class DataAgentMock implements IDataAgent {
     private DataAgentMock() {
         list = new ArrayList<>();
         for(int i=0;i<7;i++){
-            Character tempChar = new Character("Bob_"+i,"Sponge", "Sponger", "Idiot_"+i, 100, 100, 10);
+            Character tempChar = new Character(1,1,"Bob_"+i,"Sponge", "Sponger", "Idiot_"+i, 100, 100, 10);
             tempChar.setStat(Domain.Stat.STR,12);
             tempChar.setStat(Domain.Stat.DEX,12);
             tempChar.setStat(Domain.Stat.CON,12);
@@ -30,14 +32,12 @@ public class DataAgentMock implements IDataAgent {
             tempChar.setStat(Domain.Stat.WIS,12);
             tempChar.setStat(Domain.Stat.CHA,12);
 
-            World tempWorld = new World("Earth_"+i,"abc");
-            tempChar.setWorld(tempWorld);
             list.add(tempChar);
         }
     }
 
-    @Override
-    public Character getCharByName(String name) {
+    //@Override
+    public Character getCharByName(Context context, String name) {
 
         for (Character c:list) {
             if (c.getName().equals(name))
@@ -46,14 +46,14 @@ public class DataAgentMock implements IDataAgent {
         return null;
     }
 
-    @Override
-    public ArrayList<Character> getAllCharsByUser(String username) {
+    //@Override
+    public ArrayList<Character> getAllCharsByUser(Context context,String username) {
         Collections.sort(list,Character.CharNameComparator);
         return list;
     }
 
-    @Override
-    public void deleteCharFromUser(String username, String charName) {
+    //@Override
+    public void deleteCharFromUser(Context context,String username, String charName) {
         int j=-1,i=0;
         for (Character c:list) {
             if (c.getName().equals(charName))
@@ -64,22 +64,22 @@ public class DataAgentMock implements IDataAgent {
             list.remove(j);
     }
 
-    @Override
-    public void updateOrInsertCharOfUser(String username, Character character) {
-        Character c = getCharByName(character.getName());
+    //@Override
+    public void updateOrInsertCharOfUser(Context context,String username, Character character) {
+        Character c = getCharByName(context,character.getName());
         if (c!=null)
-            deleteCharFromUser(username,c.getName());
+            deleteCharFromUser(context,username,c.getName());
         list.add(character);
     }
 
     private Character _tempChar;
 
-    @Override
+    //@Override
     public void setLocalTemporaryCharacter(Character character) {
         this._tempChar = character;
     }
 
-    @Override
+    //@Override
     public Character getLocalTemporaryCharacter() {
         return this._tempChar;
     }
