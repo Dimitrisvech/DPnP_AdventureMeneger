@@ -22,6 +22,7 @@ public class CharacterViewActivity extends AppCompatActivity {
     private IDataAgent _dataAgent;
     private ScrollView _container;
     private Character _char;
+    private final Context _context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,7 @@ public class CharacterViewActivity extends AppCompatActivity {
     }
 
     private void init(){
-        _dataAgent = DataAgentManager.getDataAgent();
+        _dataAgent = DataAgentManager.getDataAgent(_context);
         _container = (ScrollView)findViewById(R.id.containerCharView);
         _char = _dataAgent.getLocalTemporaryCharacter();
     }

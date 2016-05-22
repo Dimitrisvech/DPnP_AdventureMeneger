@@ -1,5 +1,6 @@
 package com.digitalpanandpaper.www.digitalpanandpaper_adventuremanager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class AddCharacterActivity extends AppCompatActivity {
 
     private IDataAgent _dataAgent;
     private Character newCharacter;
+    private final Context _context=this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +28,7 @@ public class AddCharacterActivity extends AppCompatActivity {
     }
 
     private void Init() {
-        _dataAgent= DataAgentManager.getDataAgent();
+        _dataAgent= DataAgentManager.getDataAgent(_context);
 
         Button buttonBack = (Button)findViewById(R.id.backButton);
         buttonBack.setOnClickListener(new View.OnClickListener(){
@@ -71,7 +73,7 @@ public class AddCharacterActivity extends AppCompatActivity {
         String race = raceField.getText().toString();
         EditText occupationField = (EditText) findViewById(R.id.newCharOccupation);
         String occupation = occupationField.getText().toString();
-        newCharacter = new Character(name,surname,race,occupation,0,0,0);
+        newCharacter = new Character(0,Domain.getUser().getUid(),name,surname,race,occupation,0,0,0);
         return true;
     }
 }

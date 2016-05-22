@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ScrollView _characterContainer;
     private ScrollView _inventoryContainer;
     private Character _myCharacter;
+    private final Context _context=this;
 
 
     @Override
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         host.addTab(spec);
     }
     private void init(){
-        _dataAgent = DataAgentManager.getDataAgent();
+        _dataAgent = DataAgentManager.getDataAgent(_context);
         _characterContainer = (ScrollView)findViewById(R.id.Character);
         _inventoryContainer = (ScrollView)findViewById(R.id.Inventory);
 

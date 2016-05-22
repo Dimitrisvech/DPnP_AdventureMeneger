@@ -1,5 +1,6 @@
 package com.digitalpanandpaper.www.digitalpanandpaper_adventuremanager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class AddCharacterStatsActivity extends AppCompatActivity {
     private NumberPicker[] _numPickers;
     private Character newCharacter;
     private IDataAgent _dataAgent;
+    private final Context _context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,7 @@ public class AddCharacterStatsActivity extends AppCompatActivity {
     }
 
     private void Init(){
-        this._dataAgent = DataAgentManager.getDataAgent();
+        this._dataAgent = DataAgentManager.getDataAgent(_context);
     }
 
     private void initButtons(){

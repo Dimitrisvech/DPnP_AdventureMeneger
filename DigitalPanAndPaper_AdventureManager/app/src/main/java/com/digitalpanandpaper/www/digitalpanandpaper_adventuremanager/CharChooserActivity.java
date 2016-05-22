@@ -40,8 +40,8 @@ public class CharChooserActivity extends AppCompatActivity {
 
     private void Init() {
         _container = (LinearLayout)findViewById(R.id.container);
-        _dataAgent= DataAgentManager.getDataAgent();
-        _characterList=_dataAgent.getAllCharsByUser(Domain.getUser().getUsername());
+        _dataAgent= DataAgentManager.getDataAgent(context);
+        _characterList=_dataAgent.getAllCharsByUser();
 
         final Intent viewChange = new Intent(this,AddCharacterActivity.class);
         Button buttonAddChar = (Button)findViewById(R.id.addNewCharButton);
@@ -60,9 +60,8 @@ public class CharChooserActivity extends AppCompatActivity {
         else {
             noCharMsg.setVisibility(View.GONE);
             for (Character character:_characterList) {
-                String nameRow = character.getName() + " " + character.getSurName()
-                                + " The " + character.getOccupation() + "("+character.getRace() + ")";
-                String DetailRow = "Game World: " + character.getWorld().getWorldName() + "; Exp: " + character.getExp();
+                String nameRow = character.getName() + " " + character.getSurName();
+                String DetailRow = "The " + character.getOccupation() + "("+character.getRace() + ")";
                 DisplayChar(nameRow,DetailRow,character.getName());
             }
         }
