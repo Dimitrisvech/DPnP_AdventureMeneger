@@ -61,17 +61,17 @@ public class DataAgent implements IDataAgent {
                         int arrayLength = jsonCharactersArray.length();
                         for (int i = 0; i < arrayLength; i++)
                         {
-                            JSONObject jsonUser = jsonCharactersArray.getJSONObject(i);
+                            JSONObject jsonChar = jsonCharactersArray.getJSONObject(i);
                             EnumMap<Domain.Stat,Integer> stats = new EnumMap<>(Domain.Stat.class);
-                            stats.put(Domain.Stat.STR,jsonUser.getInt("cStr"));
-                            stats.put(Domain.Stat.DEX,jsonUser.getInt("cDex"));
-                            stats.put(Domain.Stat.CON,jsonUser.getInt("cCon"));
-                            stats.put(Domain.Stat.INT,jsonUser.getInt("cInt"));
-                            stats.put(Domain.Stat.WIS,jsonUser.getInt("cWis"));
-                            stats.put(Domain.Stat.CHA,jsonUser.getInt("cCha"));
+                            stats.put(Domain.Stat.STR,jsonChar.getInt("cStr"));
+                            stats.put(Domain.Stat.DEX,jsonChar.getInt("cDex"));
+                            stats.put(Domain.Stat.CON,jsonChar.getInt("cCon"));
+                            stats.put(Domain.Stat.INT,jsonChar.getInt("cInt"));
+                            stats.put(Domain.Stat.WIS,jsonChar.getInt("cWis"));
+                            stats.put(Domain.Stat.CHA,jsonChar.getInt("cCha"));
 
-                            Character ch = new Character(jsonUser.getInt("cid"),jsonUser.getInt("uid"),jsonUser.getString("cName"),jsonUser.getString("cSurName"),
-                                    jsonUser.getString("cRace"),jsonUser.getString("cOccupation"),jsonUser.getInt("cMaxHealth"),jsonUser.getInt("cMaxMana"),jsonUser.getInt("cAC"),stats);
+                            Character ch = new Character(jsonChar.getInt("cid"),jsonChar.getInt("uid"),jsonChar.getString("cName"),jsonChar.getString("cSurName"),
+                                    jsonChar.getString("cRace"),jsonChar.getString("cOccupation"),jsonChar.getInt("cMaxHealth"),jsonChar.getInt("cMaxMana"),jsonChar.getInt("cAC"),stats);
                             list.add(ch);
                         }
 

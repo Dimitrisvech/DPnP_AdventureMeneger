@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Adventure Manager</string>
     <!--Labels-->
-    <string name="login_label">Log In</string>
-    <string name="userName_label">User name</string>
+    <string name="login_label">Login</string>
+    <string name="userName_label">Username</string>
     <string name="password_label">Password</string>
     <string name="NoChars_label">No characters available.</string>
     <string name="PlaceHolder_label">.....Place holder.....</string>

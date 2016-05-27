@@ -7,8 +7,6 @@ import java.util.Collections;
 
 import Data.Character;
 import Data.Domain;
-import Data.World;
-import Interfaces.IDataAgent;
 
 /**
  * Created by Dimas on 04-May-16.
