@@ -17,8 +17,10 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".CharChooserActivity" />
-        <activity android:name=".AddCharacterActivity" />
-        <activity android:name=".AddCharacterStatsActivity" />
+        <activity android:name=".AddCharacterActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".AddCharacterStatsActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".CharacterViewActivity"></activity>
 
     </application>
