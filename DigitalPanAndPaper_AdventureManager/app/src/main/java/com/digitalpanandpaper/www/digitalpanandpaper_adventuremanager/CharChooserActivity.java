@@ -40,7 +40,7 @@ public class CharChooserActivity extends AppCompatActivity {
 
     private void Init() {
         _container = (LinearLayout)findViewById(R.id.container);
-        _dataAgent= DataAgentManager.getDataAgent(context);
+        _dataAgent = DataAgentManager.getDataAgent(context);
         _characterList=_dataAgent.getAllCharsByUser();
 
         final Intent viewChange = new Intent(this,AddCharacterActivity.class);
