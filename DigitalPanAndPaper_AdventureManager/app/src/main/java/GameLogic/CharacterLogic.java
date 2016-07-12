@@ -29,7 +29,7 @@ public class CharacterLogic {
      * @param multiplier the number that will multiply the stat bonus
      * @return the field value
      */
-    public static  int calcFieldFromStat(int stat,int base,int multiplier){
+    public static int calcFieldFromStat(int stat,int base,int multiplier){
         return base + (getBonusFromStat(stat)* multiplier);
     }
 }

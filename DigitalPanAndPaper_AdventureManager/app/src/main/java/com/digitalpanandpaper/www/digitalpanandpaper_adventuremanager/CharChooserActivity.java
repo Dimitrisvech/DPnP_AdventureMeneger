@@ -61,7 +61,7 @@ public class CharChooserActivity extends AppCompatActivity {
             noCharMsg.setVisibility(View.GONE);
             for (Character character:_characterList) {
                 String nameRow = character.getName() + " " + character.getSurName();
-                String DetailRow = "The " + character.getOccupation() + "("+character.getRace() + ")";
+                String DetailRow = "The " + character.getOccupation() + " ("+character.getRace() + ")";
                 DisplayChar(character.getCid(),nameRow,DetailRow,character.getName());
             }
         }
@@ -72,6 +72,7 @@ public class CharChooserActivity extends AppCompatActivity {
         final Intent viewChange = new Intent(this,MainActivity.class);
         final String characterName = charName;
         final int id = cid;
+
         viewChange.putExtra("CharacterName",charName);
         LayoutInflater layoutInflater =
                 (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

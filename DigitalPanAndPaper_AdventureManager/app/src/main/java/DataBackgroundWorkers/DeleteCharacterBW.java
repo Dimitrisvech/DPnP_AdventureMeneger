@@ -27,7 +27,6 @@ public class DeleteCharacterBW extends AsyncTask<String,Void,String> {
     protected String doInBackground(String... params) {
         cid = params[0];
 
-
         String link;
         String data;
         String line;
