@@ -117,13 +117,13 @@ public class DataAgent implements IDataAgent {
                     if (success==1) {
                         return true;
                     } else if (success==0) {
-                        Toast.makeText(_context, "No characters found..."+charId+"\n"+result, Toast.LENGTH_LONG).show();
+                        Toast.makeText(_context, "No characters found...", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(_context, "Error.", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(_context, "Connection Error.\n"+charId+"\n"+result, Toast.LENGTH_LONG).show();
+                    Toast.makeText(_context, "Connection Error.", Toast.LENGTH_LONG).show();
                 }
 
             } else {
