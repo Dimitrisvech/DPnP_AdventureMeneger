@@ -2,7 +2,6 @@ package Mocks;
 
 import Data.Domain;
 import Data.User;
-import Interfaces.ILogin;
 
 /**
  * Created by Dimas on 30-Apr-16.

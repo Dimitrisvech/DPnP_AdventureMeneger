@@ -3,9 +3,9 @@ package com.digitalpanandpaper.www.digitalpanandpaper_adventuremanager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -34,8 +34,8 @@ public class CharChooserActivity extends AppCompatActivity {
         DisplayAllChars();
     }
 
-    public void removeChar(String name){
-        _dataAgent.deleteCharFromUser(Domain.getUser().getUsername(),name);
+    public boolean removeChar(int cid){
+        return _dataAgent.deleteCharFromUser(cid);
     }
 
     private void Init() {
@@ -62,15 +62,16 @@ public class CharChooserActivity extends AppCompatActivity {
             for (Character character:_characterList) {
                 String nameRow = character.getName() + " " + character.getSurName();
                 String DetailRow = "The " + character.getOccupation() + "("+character.getRace() + ")";
-                DisplayChar(nameRow,DetailRow,character.getName());
+                DisplayChar(character.getCid(),nameRow,DetailRow,character.getName());
             }
         }
 
     }
 
-    private void DisplayChar(String cNameRow,String cDetailRow,String charName){
+    private void DisplayChar(int cid,String cNameRow,String cDetailRow,String charName){
         final Intent viewChange = new Intent(this,MainActivity.class);
         final String characterName = charName;
+        final int id = cid;
         viewChange.putExtra("CharacterName",charName);
         LayoutInflater layoutInflater =
                 (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -103,22 +104,21 @@ public class CharChooserActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //*************************
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                //Do your Yes progress
-                                removeChar(characterName);
-                                ((LinearLayout)charView.getParent()).removeView(charView);
-                                String deletedMsg = characterName+" has been deleted.";
-                                Toast.makeText(CharChooserActivity.this, deletedMsg, Toast.LENGTH_SHORT).show();
-                                
+                                //Yes progress
+                                if (removeChar(id)) {
+                                    ((LinearLayout) charView.getParent()).removeView(charView);
+                                    String deletedMsg = characterName + " has been deleted.";
+                                    Toast.makeText(CharChooserActivity.this, deletedMsg, Toast.LENGTH_SHORT).show();
+                                }
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
-                                //Do your No progress
+                                //No progress - Do nothing.
                                 break;
                         }
                     }

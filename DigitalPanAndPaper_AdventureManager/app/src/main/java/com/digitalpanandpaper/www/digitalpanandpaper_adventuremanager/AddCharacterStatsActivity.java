@@ -2,11 +2,10 @@ package com.digitalpanandpaper.www.digitalpanandpaper_adventuremanager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -17,6 +16,8 @@ import Data.DataAgentManager;
 import Data.Domain.Stat;
 import GameLogic.CharacterLogic;
 import Interfaces.IDataAgent;
+
+import static GameLogic.CharacterLogic.calcFieldFromStat;
 
 public class AddCharacterStatsActivity extends AppCompatActivity {
 
@@ -52,30 +53,36 @@ public class AddCharacterStatsActivity extends AppCompatActivity {
 
         Button buttonNext = (Button)findViewById(R.id.nextButton2);
         final Intent viewChange = new Intent(this,CharacterViewActivity.class);
-        buttonNext.setOnClickListener(new View.OnClickListener(){
+        if (buttonNext != null) {
+            buttonNext.setOnClickListener(new View.OnClickListener(){
 
-            @Override
-            public void onClick(View v) {
-                int realValue;
-                realValue = Integer.parseInt(_numPickerValues[_numPickers[0].getValue()]);
-                newCharacter.setStat(Stat.STR,realValue);
-                realValue = Integer.parseInt(_numPickerValues[_numPickers[1].getValue()]);
-                newCharacter.setStat(Stat.DEX,realValue);
-                realValue = Integer.parseInt(_numPickerValues[_numPickers[2].getValue()]);
-                newCharacter.setStat(Stat.CON,realValue);
-                realValue = Integer.parseInt(_numPickerValues[_numPickers[3].getValue()]);
-                newCharacter.setStat(Stat.INT,realValue);
-                realValue = Integer.parseInt(_numPickerValues[_numPickers[4].getValue()]);
-                newCharacter.setStat(Stat.WIS,realValue);
-                realValue = Integer.parseInt(_numPickerValues[_numPickers[5].getValue()]);
-                newCharacter.setStat(Stat.CHA,realValue);
+                @Override
+                public void onClick(View v) {
+                    int base = 10;
+                    int multiplier = 5;
+                    int realValue;
+                    realValue = Integer.parseInt(_numPickerValues[_numPickers[0].getValue()]);
+                    newCharacter.setStat(Stat.STR,realValue);
+                    realValue = Integer.parseInt(_numPickerValues[_numPickers[1].getValue()]);
+                    newCharacter.setStat(Stat.DEX,realValue);
+                    newCharacter.setAC(calcFieldFromStat(realValue,base,multiplier));
+                    realValue = Integer.parseInt(_numPickerValues[_numPickers[2].getValue()]);
+                    newCharacter.setStat(Stat.CON,realValue);
+                    newCharacter.setMaxHealth(calcFieldFromStat(realValue,base,multiplier));
+                    realValue = Integer.parseInt(_numPickerValues[_numPickers[3].getValue()]);
+                    newCharacter.setStat(Stat.INT,realValue);
+                    newCharacter.setMaxMana(calcFieldFromStat(realValue,base,multiplier));
+                    realValue = Integer.parseInt(_numPickerValues[_numPickers[4].getValue()]);
+                    newCharacter.setStat(Stat.WIS,realValue);
+                    realValue = Integer.parseInt(_numPickerValues[_numPickers[5].getValue()]);
+                    newCharacter.setStat(Stat.CHA,realValue);
 
-                //viewChange.putExtra("character",newCharacter);
-                _dataAgent.setLocalTemporaryCharacter(newCharacter);
-                startActivity(viewChange);
+                    _dataAgent.setLocalTemporaryCharacter(newCharacter);
+                    startActivity(viewChange);
 
 
-            }});
+                }});
+        }
     }
 
     private void initNumberPickers(){

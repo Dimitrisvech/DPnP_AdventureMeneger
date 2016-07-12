@@ -3,7 +3,6 @@ package Login;
 
 import com.digitalpanandpaper.www.digitalpanandpaper_adventuremanager.LoginActivity;
 
-
 import Data.User;
 import Interfaces.ILogin;
 

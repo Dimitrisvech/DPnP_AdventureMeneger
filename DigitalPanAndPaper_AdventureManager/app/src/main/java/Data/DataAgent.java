@@ -12,7 +12,11 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.concurrent.ExecutionException;
 
-import DataBackgroundWorkers.SelectAllFromUserBW;
+import DataBackgroundWorkers.DeleteCharacterBW;
+import DataBackgroundWorkers.InsertCharacterBW;
+import DataBackgroundWorkers.SelectAllCharactersFromUserBW;
+import DataBackgroundWorkers.SelectCharacterBW;
+import DataBackgroundWorkers.UpdateCharacterBW;
 import Interfaces.IDataAgent;
 
 /**
@@ -48,7 +52,7 @@ public class DataAgent implements IDataAgent {
     @Override
     public ArrayList<Character> getAllCharsByUser() {
         list = new ArrayList<>();
-        SelectAllFromUserBW sbw = new SelectAllFromUserBW(_context);
+        SelectAllCharactersFromUserBW sbw = new SelectAllCharactersFromUserBW(_context);
         try {
             String result=sbw.execute(Domain.getUser().getUid()+"").get();
             if (result != null) {
@@ -74,27 +78,19 @@ public class DataAgent implements IDataAgent {
                                     jsonChar.getString("cRace"),jsonChar.getString("cOccupation"),jsonChar.getInt("cMaxHealth"),jsonChar.getInt("cMaxMana"),jsonChar.getInt("cAC"),stats);
                             list.add(ch);
                         }
-
-
                     } else if (success==0) {
                         //TODO Failed
                         Toast.makeText(_context, "No characters found...", Toast.LENGTH_LONG).show();
-
                     } else {
                         //TODO Error
                         Toast.makeText(_context, "Error.", Toast.LENGTH_SHORT).show();
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(_context, "Connection Error. \n"+result, Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(_context, "Connection Error.", Toast.LENGTH_LONG).show();
                 }
-
             } else {
-
                 Toast.makeText(_context, "Couldn't get any JSON data.", Toast.LENGTH_SHORT).show();
-
             }
 
         } catch (InterruptedException e) {
@@ -108,16 +104,74 @@ public class DataAgent implements IDataAgent {
     }
 
     @Override
-    public void deleteCharFromUser(String username, String charName) {
+    public boolean deleteCharFromUser(int charId) {
 
+        DeleteCharacterBW dbw = new DeleteCharacterBW(_context);
+        try {
+
+            String result=dbw.execute(charId+"").get();
+            if (result != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(result);
+                    int success = jsonObj.getInt("success");
+                    if (success==1) {
+                        return true;
+                    } else if (success==0) {
+                        Toast.makeText(_context, "No characters found..."+charId+"\n"+result, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(_context, "Error.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(_context, "Connection Error.\n"+charId+"\n"+result, Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(_context, "Couldn't get any JSON data.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
-    public void updateOrInsertCharOfUser(String username, Character character) {
+    public boolean updateOrInsertCharOfUser(Character character) {
+        list = new ArrayList<>();
+        SelectCharacterBW sbw = new SelectCharacterBW(_context);
+        try {
+            String selectResult=sbw.execute(character.getCid()+"").get();
+            if (selectResult != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(selectResult);
+                    int success = jsonObj.getInt("success");
+                    if (success==1) {
+                        //update
+                        return updateCharacter(character);
+                    } else if (success==0) {
+                        //Insert
+                        return insertCharacter(character);
+                    } else {
+                        //Error
+                        Toast.makeText(_context, "Error.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(_context, "Connection Error.", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(_context, "Couldn't get any JSON data.", Toast.LENGTH_SHORT).show();
+            }
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
-
-
 
     @Override
     public void setLocalTemporaryCharacter(Character character) {
@@ -128,4 +182,73 @@ public class DataAgent implements IDataAgent {
     public Character getLocalTemporaryCharacter() {
         return this._tempChar;
     }
+
+    private boolean updateCharacter(Character character){
+        UpdateCharacterBW ubw = new UpdateCharacterBW(_context);
+        try{
+            String updateResult=ubw.execute(character.getCid()+"",character.getName(),character.getSurName(),character.getRace(),character.getOccupation(),
+                    character.getMaxHealth()+"",character.getMaxMana()+"",character.getAC()+"",character.getStat(Domain.Stat.STR)+"",
+                    character.getStat(Domain.Stat.DEX)+"",character.getStat(Domain.Stat.CON)+"",character.getStat(Domain.Stat.WIS)+"",
+                    character.getStat(Domain.Stat.INT)+"",character.getStat(Domain.Stat.CHA)+"").get();
+            if (updateResult != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(updateResult);
+                    int success = jsonObj.getInt("success");
+                    if (success==1) {
+                        return true;
+                    } else if (success==0) {
+                        Toast.makeText(_context, "Failed to update...", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(_context, "Update: Error.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(_context, "Update: Connection Error.", Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(_context, "Couldn't get any JSON data.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean insertCharacter(Character character){
+        InsertCharacterBW ibw = new InsertCharacterBW(_context);
+        try{
+            String insertResult=ibw.execute(character.getUid()+"",character.getCid()+"",character.getName(),character.getSurName(),character.getRace(),
+                    character.getOccupation(),character.getMaxHealth()+"",character.getMaxMana()+"",character.getAC()+"",character.getStat(Domain.Stat.STR)+"",
+                    character.getStat(Domain.Stat.DEX)+"",character.getStat(Domain.Stat.CON)+"",character.getStat(Domain.Stat.WIS)+"",
+                    character.getStat(Domain.Stat.INT)+"",character.getStat(Domain.Stat.CHA)+"").get();
+            if (insertResult != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(insertResult);
+                    int success = jsonObj.getInt("success");
+                    if (success==1) {
+                        return true;
+                    } else if (success==0) {
+                        Toast.makeText(_context, "Failed to insert...", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(_context, "Insert: Error.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(_context, "Insert: Connection Error.", Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(_context, "Couldn't get any JSON data.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

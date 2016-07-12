@@ -1,14 +1,13 @@
 package Interfaces;
 
 
-import android.content.Context;
-
 import java.util.ArrayList;
 
 import Data.Character;
 
 /**
  * Created by Dimas on 04-May-16.
+ * Defines the methods of the DataAgent.
  */
 public interface IDataAgent {
     /**
@@ -26,17 +25,16 @@ public interface IDataAgent {
 
     /**
      * Deletes character from a user
-     * @param username The username
-     * @param charName The characters name
+     * @param charId The characters id
+     * @return True if successful
      */
-    void deleteCharFromUser(String username,String charName);
+    boolean deleteCharFromUser(int charId);
 
     /**
      * Insert or update character of a user
-     * @param username The username
      * @param character The character to insert or update
      */
-    void updateOrInsertCharOfUser(String username,Character character);
+    boolean updateOrInsertCharOfUser(Character character);
 
     /**
      * Saves a local temp character

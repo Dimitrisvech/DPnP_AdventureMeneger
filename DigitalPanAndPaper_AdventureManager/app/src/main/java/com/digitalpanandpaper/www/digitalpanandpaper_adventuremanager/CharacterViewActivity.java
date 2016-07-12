@@ -2,12 +2,11 @@ package com.digitalpanandpaper.www.digitalpanandpaper_adventuremanager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -126,15 +125,17 @@ public class CharacterViewActivity extends AppCompatActivity {
             }});
 
         Button buttonSave = (Button)findViewById(R.id.saveButtonCharView);
-        buttonSave.setOnClickListener(new View.OnClickListener(){
+        if (buttonSave != null) {
+            buttonSave.setOnClickListener(new View.OnClickListener(){
 
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(CharacterViewActivity.this, "Character saved!", Toast.LENGTH_SHORT).show();
-                _dataAgent.updateOrInsertCharOfUser(Domain.getUser().getUsername(),_char);
-                Intent intent = new Intent(getApplicationContext(), CharChooserActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }});
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(CharacterViewActivity.this, "Character saved!", Toast.LENGTH_SHORT).show();
+                    _dataAgent.updateOrInsertCharOfUser(_char);
+                    Intent intent = new Intent(getApplicationContext(), CharChooserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }});
+        }
     }
 }

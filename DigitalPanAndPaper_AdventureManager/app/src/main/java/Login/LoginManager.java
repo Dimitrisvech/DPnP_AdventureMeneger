@@ -1,7 +1,6 @@
 package Login;
 
 import Interfaces.ILogin;
-import Mocks.LoginMock;
 
 /**
  * Created by Dimas on 04-May-16.

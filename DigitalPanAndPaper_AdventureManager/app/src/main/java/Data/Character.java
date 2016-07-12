@@ -1,7 +1,6 @@
 package Data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumMap;
 
@@ -13,10 +12,10 @@ public class Character implements Serializable {
     //region Properties
     private int cid;
     private int uid;
-    private String Name;
-    private String SurName;
-    private String Race;
-    private String Occupation;
+    private String name;
+    private String surName;
+    private String race;
+    private String occupation;
 
 
 
@@ -51,35 +50,35 @@ public class Character implements Serializable {
     }
 
     public String getOccupation() {
-        return Occupation;
+        return occupation;
     }
 
     public void setOccupation(String occupation) {
-        Occupation = occupation;
+        this.occupation = occupation;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getSurName() {
-        return SurName;
+        return surName;
     }
 
     public void setSurName(String surName) {
-        SurName = surName;
+        this.surName = surName;
     }
 
     public String getRace() {
-        return Race;
+        return race;
     }
 
     public void setRace(String race) {
-        Race = race;
+        this.race = race;
     }
 
     public int getHealth() {
@@ -129,16 +128,18 @@ public class Character implements Serializable {
     //region Constructors
 
     public Character(int cid,int uid,String name, String surName, String race, String occupation, int maxHealth, int maxMana, int ac) {
-        Name = name;
-        SurName = surName;
-        Race = race;
-        Occupation = occupation;
-        Health = maxHealth;
-        MaxHealth = maxHealth;
-        Mana = maxMana;
-        MaxMana = maxMana;
-        AC = ac;
-        Stats=new EnumMap<>(Domain.Stat.class);
+        this.cid = cid;
+        this.uid = uid;
+        this.name = name;
+        this.surName = surName;
+        this.race = race;
+        this.occupation = occupation;
+        this.Health = maxHealth;
+        this.MaxHealth = maxHealth;
+        this.Mana = maxMana;
+        this.MaxMana = maxMana;
+        this.AC = ac;
+        this.Stats=new EnumMap<>(Domain.Stat.class);
 
     }
 
