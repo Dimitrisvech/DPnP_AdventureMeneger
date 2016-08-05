@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Adventure Manager</string>
     <!--Labels-->
+    <string name="label_attack">Attack:</string>
     <string name="login_label">Login</string>
+    <string name="label_hp_hint">hit points</string>
     <string name="userName_label">Username</string>
     <string name="password_label">Password</string>
     <string name="NoChars_label">No characters available.</string>
@@ -47,5 +49,11 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="appbar_scrolling_view_behavior">test</string>
+    <string name="label_mana_hint">mana</string>
+    <string name="label_hitdie">Hit die:</string>
+    <string name="label_roll_dice">Roll dice:</string>
+    <string name="label_log">Log:</string>
+    <string name="label_d0">d0</string>
+    <string name="label_zero">0</string>
 
 </resources>
