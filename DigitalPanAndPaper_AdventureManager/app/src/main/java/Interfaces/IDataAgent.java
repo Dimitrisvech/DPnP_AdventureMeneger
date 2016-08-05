@@ -47,4 +47,6 @@ public interface IDataAgent {
      * @return Temp character saved by setLocalTemporaryCharacter()
      */
     Character getLocalTemporaryCharacter();
+
+
 }
