@@ -254,7 +254,7 @@ public class DataAgent implements IDataAgent {
         return false;
     }
 
-    private boolean insertItem(InventoryItem item){
+    public boolean insertItem(InventoryItem item){
         InsertItemBW ibw = new InsertItemBW(_context);
         try{
             String insertResult=ibw.execute(item.getCid()+"",item.getArmorClass()+"",item.getEquippedSpot(),item.getHitDie()+"",item.getId()+"",
