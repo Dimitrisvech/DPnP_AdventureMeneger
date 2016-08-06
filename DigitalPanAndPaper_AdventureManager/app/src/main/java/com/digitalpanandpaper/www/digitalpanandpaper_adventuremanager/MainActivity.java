@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -28,7 +30,7 @@ import GameLogic.CharacterLogic;
 import GameLogic.DiceLogic;
 import Interfaces.IDataAgent;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private IDataAgent _dataAgent;
     private ScrollView _characterContainer;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private Character _myCharacter;
     private ArrayList<InventoryItem> _inventory;
     private final Context _context=this;
-
+    private float lastX=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,51 @@ public class MainActivity extends AppCompatActivity {
         characterDetailTabInit();
         combatTabInit();
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent touchEvent) {
+
+        switch (touchEvent.getAction()) {
+            // when user first touches the screen to swap
+            case MotionEvent.ACTION_DOWN:
+                lastX = touchEvent.getX();
+                break;
+            case MotionEvent.ACTION_UP:
+                float currentX = touchEvent.getX();
+
+                // if left to right swipe on screen
+                if (lastX > currentX) {
+
+                    switchTabs(false);
+                }
+                // if right to left swipe on screen
+                if (lastX < currentX) {
+                    switchTabs(true);
+                }
+                break;
+        }
+        return false;
+    }
+
+    public void switchTabs(boolean direction) {
+        TabHost tabHost = (TabHost)findViewById(R.id.tabHost);
+        if (direction) // true = move left
+        {
+            if (tabHost.getCurrentTab() == 0)
+                tabHost.setCurrentTab(tabHost.getTabWidget().getTabCount() - 1);
+            else
+                tabHost.setCurrentTab(tabHost.getCurrentTab() - 1);
+        } else
+        // move right
+        {
+            if (tabHost.getCurrentTab() != (tabHost.getTabWidget()
+                    .getTabCount() - 1))
+                tabHost.setCurrentTab(tabHost.getCurrentTab() + 1);
+            else
+                tabHost.setCurrentTab(0);
+        }
+    }
+
     private void tabInit(){
         TabHost host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
@@ -137,31 +184,6 @@ public class MainActivity extends AppCompatActivity {
         text=" " + _myCharacter.getStat(Domain.Stat.CHA);
         chaView.setText(text);
 
-        //TODO set text according to real counts (after inv and equ implementation)
-        TextView invCount = (TextView)charDetails.findViewById(R.id.invCount);
-        invCount.setText("0");
-
-        TextView equipmentCount = (TextView)charDetails.findViewById(R.id.equipmentCount);
-        equipmentCount.setText("0");
-
-        //Set charDetails buttons onClick behavior
-        LinearLayout invLayout = (LinearLayout)charDetails.findViewById(R.id.characterDetailsLayoutInv);
-        invLayout.setVisibility(View.GONE);
-        /*Button invButton = (Button)charDetails.findViewById(R.id.invButton);
-        invButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Inventory: Not implemented yet...", Toast.LENGTH_SHORT).show();
-            }});*/
-
-        Button equButton = (Button)charDetails.findViewById(R.id.equButton);
-        equButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Equipment: Not implemented yet...", Toast.LENGTH_SHORT).show();
-            }});
         _characterContainer.addView(charDetails);
     }
 
@@ -217,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Set combat buttons onClick behavior
-        ImageButton addHpButton = (ImageButton)combat.findViewById(R.id.addHpButton);
+        ImageView addHpButton = (ImageView)combat.findViewById(R.id.addHpButton);
         addHpButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -230,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                 logText = "+ Healed by "+modHp+" points.\n" + logText;
                 battleLogView.setText(logText);
             }});
-        ImageButton subHpButton = (ImageButton)combat.findViewById(R.id.subHpButton);
+        ImageView subHpButton = (ImageView)combat.findViewById(R.id.subHpButton);
         subHpButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -243,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
                 logText = "- Damaged by "+modHp+" points.\n" + logText;
                 battleLogView.setText(logText);
             }});
-        ImageButton addManaButton = (ImageButton)combat.findViewById(R.id.addManaButton);
+        ImageView addManaButton = (ImageView)combat.findViewById(R.id.addManaButton);
         addManaButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -256,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 logText = "+ Restored "+modMana+" points of mana.\n" + logText;
                 battleLogView.setText(logText);
             }});
-        ImageButton subManaButton = (ImageButton)combat.findViewById(R.id.subManaButton);
+        ImageView subManaButton = (ImageView)combat.findViewById(R.id.subManaButton);
         subManaButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -270,31 +292,36 @@ public class MainActivity extends AppCompatActivity {
                 battleLogView.setText(logText);
             }});
 
-        ImageButton attackButton = (ImageButton)combat.findViewById(R.id.attackButton);
+        ImageView attackButton = (ImageView)combat.findViewById(R.id.attackButton);
         attackButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                int itemHitDie=Integer.parseInt(itemHitDieView.getText().toString());
-                int attack = DiceLogic.getHighRoll(itemHitDie,1,strBonus);
-                String logText = battleLogView.getText().toString();
-                logText = "@ Attacked for "+attack+" points of damage!\n" + logText;
-                battleLogView.setText(logText);
+                try {
+                    int itemHitDie = Integer.parseInt(itemHitDieView.getText().toString());
+                    int attack = DiceLogic.getHighRoll(itemHitDie, 1, strBonus);
+                    String logText = battleLogView.getText().toString();
+                    logText = "@ Attacked for " + attack + " points of damage!\n" + logText;
+                    battleLogView.setText(logText);
+                }
+                catch (Exception e){
+                    Toast.makeText(_context, "Cant attack without a weapon.", Toast.LENGTH_SHORT).show();
+                }
             }});
 
-        ImageButton rollButton = (ImageButton)combat.findViewById(R.id.rollButton);
+        ImageView rollButton = (ImageView)combat.findViewById(R.id.rollButton);
         rollButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                int dice = 6;
-                try {
-                    dice = Integer.parseInt(rollDiceView.getText().toString());
+                int dice = Integer.parseInt(rollDiceView.getText().toString());
+                if (dice>0) {
+                    int roll = DiceLogic.getHighRoll(dice, 1, 0);
+                    String logText = battleLogView.getText().toString();
+                    logText = "# Rolled (d" + dice + ") for " + roll + "!\n" + logText;
+                    battleLogView.setText(logText);
                 }
-                catch (Exception e){
+                else{
+                    Toast.makeText(_context, "Dice must be greater the zero.", Toast.LENGTH_SHORT).show();
                 }
-                int roll = DiceLogic.getHighRoll(dice,1,0);
-                String logText = battleLogView.getText().toString();
-                logText = "# Rolled (d"+dice+") for "+roll+"!\n" + logText;
-                battleLogView.setText(logText);
             }});
         _combatContainer.addView(combat);
     }
