@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         init();
         tabInit();
         characterDetailTabInit();
+        combatTabInit();
     }
     private void tabInit(){
         TabHost host = (TabHost)findViewById(R.id.tabHost);
@@ -177,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
         final EditText rollDiceView = (EditText)combat.findViewById(R.id.rollDie);
         final TextView battleLogView = (TextView)combat.findViewById(R.id.battleLog);
         final TextView itemHitDieView = (TextView)combat.findViewById(R.id.itemHitDie);
-
         //Populate the textViews of the element
         final TextView currentHpView = (TextView)combat.findViewById(R.id.currentHp);
         String text =_myCharacter.getHealth()+"";
@@ -191,15 +191,23 @@ public class MainActivity extends AppCompatActivity {
         text = strStat+"";
         attackStrStatView.setText(text);
 
+        ArrayList<InventoryItem> weapons = new ArrayList<>();
+        for (InventoryItem item:_inventory
+             ) {
+            if(item.getType().contains(Domain.weaponCode)){
+                weapons.add(item);
+            }
+        }
         ArrayAdapter<InventoryItem> dataAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, _inventory);
+                android.R.layout.simple_spinner_item, weapons);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner weaponList = (Spinner)combat.findViewById(R.id.weaponChooser);
         weaponList.setAdapter(dataAdapter);
         weaponList.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                parent.getSelectedItem();
+                String hitDieText=((InventoryItem)parent.getSelectedItem()).getHitDie()+"";
+                itemHitDieView.setText(hitDieText);
             }
 
             @Override
@@ -207,7 +215,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
 
         //Set combat buttons onClick behavior
         ImageButton addHpButton = (ImageButton)combat.findViewById(R.id.addHpButton);
@@ -271,6 +278,22 @@ public class MainActivity extends AppCompatActivity {
                 int attack = DiceLogic.getHighRoll(itemHitDie,1,strBonus);
                 String logText = battleLogView.getText().toString();
                 logText = "@ Attacked for "+attack+" points of damage!\n" + logText;
+                battleLogView.setText(logText);
+            }});
+
+        ImageButton rollButton = (ImageButton)combat.findViewById(R.id.rollButton);
+        rollButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                int dice = 6;
+                try {
+                    dice = Integer.parseInt(rollDiceView.getText().toString());
+                }
+                catch (Exception e){
+                }
+                int roll = DiceLogic.getHighRoll(dice,1,0);
+                String logText = battleLogView.getText().toString();
+                logText = "# Rolled (d"+dice+") for "+roll+"!\n" + logText;
                 battleLogView.setText(logText);
             }});
         _combatContainer.addView(combat);
