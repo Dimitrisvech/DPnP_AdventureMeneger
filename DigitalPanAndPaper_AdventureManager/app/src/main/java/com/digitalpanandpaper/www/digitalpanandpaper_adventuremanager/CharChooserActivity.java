@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import Data.Character;
 import Data.DataAgentManager;
 import Data.Domain;
+import GameLogic.CharacterLogic;
 import Interfaces.IDataAgent;
 
 public class CharChooserActivity extends AppCompatActivity {
@@ -130,6 +132,8 @@ public class CharChooserActivity extends AppCompatActivity {
                 //*************************
 
             }});
+        ImageView charImageView = (ImageView)charView.findViewById(R.id.charImage);
+        charImageView.setImageResource(CharacterLogic.getCharIcon(cid));
         _container.addView(charView);
     }
 }
