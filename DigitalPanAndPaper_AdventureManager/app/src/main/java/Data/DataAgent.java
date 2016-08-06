@@ -254,6 +254,7 @@ public class DataAgent implements IDataAgent {
         return false;
     }
 
+    @Override
     public boolean insertItem(InventoryItem item){
         InsertItemBW ibw = new InsertItemBW(_context);
         try{
@@ -286,6 +287,7 @@ public class DataAgent implements IDataAgent {
         return false;
     }
 
+    @Override
     public boolean deleteItemFromChar(int itemID) {
 
         DeleteItemBW dbw = new DeleteItemBW(_context);
@@ -318,6 +320,7 @@ public class DataAgent implements IDataAgent {
         return false;
     }
 
+    @Override
     public ArrayList<InventoryItem> getAllItemsByChar(int charID) {
         itemlist = new ArrayList<>();
         SelectAllItemsFromCharacterBW sbw = new SelectAllItemsFromCharacterBW(_context);
