@@ -196,15 +196,21 @@
             android:layout_marginLeft="@dimen/basic_margin_left"
             android:layout_marginStart="@dimen/basic_margin_left"
             android:layout_gravity="center" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_d"
+            android:textSize="@dimen/text_size"
+            android:layout_marginLeft="@dimen/basic_margin_left"
+            android:layout_marginStart="@dimen/basic_margin_left"
+            android:layout_gravity="center" />
         <EditText
             android:id="@+id/rollDie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_zero"
+            android:text="@string/label_six"
             android:textSize="@dimen/text_size"
             android:inputType="number"
-            android:layout_marginLeft="@dimen/basic_margin_left"
-            android:layout_marginStart="@dimen/basic_margin_left"
             android:layout_gravity="center" />
 
         <ImageButton
