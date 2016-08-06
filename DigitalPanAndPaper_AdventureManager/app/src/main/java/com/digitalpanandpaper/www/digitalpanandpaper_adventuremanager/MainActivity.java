@@ -183,31 +183,6 @@ public class MainActivity extends AppCompatActivity{
         text=" " + _myCharacter.getStat(Domain.Stat.CHA);
         chaView.setText(text);
 
-        //TODO set text according to real counts (after inv and equ implementation)
-        TextView invCount = (TextView)charDetails.findViewById(R.id.invCount);
-        invCount.setText("0");
-
-        TextView equipmentCount = (TextView)charDetails.findViewById(R.id.equipmentCount);
-        equipmentCount.setText("0");
-
-        //Set charDetails buttons onClick behavior
-        LinearLayout invLayout = (LinearLayout)charDetails.findViewById(R.id.characterDetailsLayoutInv);
-        invLayout.setVisibility(View.GONE);
-        /*Button invButton = (Button)charDetails.findViewById(R.id.invButton);
-        invButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Inventory: Not implemented yet...", Toast.LENGTH_SHORT).show();
-            }});*/
-
-        Button equButton = (Button)charDetails.findViewById(R.id.equButton);
-        equButton.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Equipment: Not implemented yet...", Toast.LENGTH_SHORT).show();
-            }});
         _characterContainer.addView(charDetails);
     }
 
