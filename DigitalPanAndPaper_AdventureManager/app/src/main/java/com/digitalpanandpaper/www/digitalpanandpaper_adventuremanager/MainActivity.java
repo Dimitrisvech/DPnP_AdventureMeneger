@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,7 +29,7 @@ import GameLogic.CharacterLogic;
 import GameLogic.DiceLogic;
 import Interfaces.IDataAgent;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private IDataAgent _dataAgent;
     private ScrollView _characterContainer;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Character _myCharacter;
     private ArrayList<InventoryItem> _inventory;
     private final Context _context=this;
-
+    private float lastX=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,51 @@ public class MainActivity extends AppCompatActivity {
         characterDetailTabInit();
         combatTabInit();
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent touchEvent) {
+
+        switch (touchEvent.getAction()) {
+            // when user first touches the screen to swap
+            case MotionEvent.ACTION_DOWN:
+                lastX = touchEvent.getX();
+                break;
+            case MotionEvent.ACTION_UP:
+                float currentX = touchEvent.getX();
+
+                // if left to right swipe on screen
+                if (lastX > currentX) {
+
+                    switchTabs(false);
+                }
+                // if right to left swipe on screen
+                if (lastX < currentX) {
+                    switchTabs(true);
+                }
+                break;
+        }
+        return false;
+    }
+
+    public void switchTabs(boolean direction) {
+        TabHost tabHost = (TabHost)findViewById(R.id.tabHost);
+        if (direction) // true = move left
+        {
+            if (tabHost.getCurrentTab() == 0)
+                tabHost.setCurrentTab(tabHost.getTabWidget().getTabCount() - 1);
+            else
+                tabHost.setCurrentTab(tabHost.getCurrentTab() - 1);
+        } else
+        // move right
+        {
+            if (tabHost.getCurrentTab() != (tabHost.getTabWidget()
+                    .getTabCount() - 1))
+                tabHost.setCurrentTab(tabHost.getCurrentTab() + 1);
+            else
+                tabHost.setCurrentTab(0);
+        }
+    }
+
     private void tabInit(){
         TabHost host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
