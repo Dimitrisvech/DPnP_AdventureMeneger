@@ -98,4 +98,8 @@ public class InventoryItem implements Serializable{
             //descending order
             //return CharacterName2.compareTo(CharacterName1);
         }};
+    @Override
+    public String toString(){
+        return getName()+" ("+getType()+")";
+    }
 }
