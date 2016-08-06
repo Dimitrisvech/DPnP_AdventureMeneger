@@ -10,4 +10,5 @@
     <color name="GrayText">#222222</color>
     <color name="okGreen">#00bb00</color>
     <color name="Background">#bbbbbb</color>
+    <color name="listDivider">#111111</color>
 </resources>
