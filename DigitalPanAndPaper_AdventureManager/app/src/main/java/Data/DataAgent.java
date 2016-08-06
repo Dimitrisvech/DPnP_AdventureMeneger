@@ -14,9 +14,11 @@ import java.util.concurrent.ExecutionException;
 
 import DataBackgroundWorkers.DeleteCharacterBW;
 import DataBackgroundWorkers.InsertCharacterBW;
+import DataBackgroundWorkers.InsertItemBW;
 import DataBackgroundWorkers.SelectAllCharactersFromUserBW;
 import DataBackgroundWorkers.SelectCharacterBW;
 import DataBackgroundWorkers.UpdateCharacterBW;
+import DataBackgroundWorkers.*;
 import Interfaces.IDataAgent;
 
 /**
@@ -33,6 +35,7 @@ public class DataAgent implements IDataAgent {
 
     private static Context _context;
     public static ArrayList<Character> list;
+    public static ArrayList<InventoryItem> itemlist;
     public static boolean isListUpdated;
     private Character _tempChar;
 
@@ -249,6 +252,118 @@ public class DataAgent implements IDataAgent {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public boolean insertItem(InventoryItem item){
+        InsertItemBW ibw = new InsertItemBW(_context);
+        try{
+            String insertResult=ibw.execute(item.getCid()+"",item.getArmorClass()+"",item.getEquippedSpot(),item.getHitDie()+"",item.getId()+"",
+                    item.getName(),item.getType()).get();
+            if (insertResult != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(insertResult);
+                    int success = jsonObj.getInt("success");
+                    if (success==1) {
+                        return true;
+                    } else if (success==0) {
+                        Toast.makeText(_context, "Failed to insert...", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(_context, "Insert: Error.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(_context, "Insert: Connection Error.", Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(_context, "Couldn't get any JSON data.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteItemFromChar(int itemID) {
+
+        DeleteItemBW dbw = new DeleteItemBW(_context);
+        try {
+            String result=dbw.execute(itemID+"").get();
+            if (result != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(result);
+                    int success = jsonObj.getInt("success");
+                    if (success==1) {
+                        return true;
+                    } else if (success==0) {
+                        Toast.makeText(_context, "No items found...", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(_context, "Error.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(_context, "Connection Error.", Toast.LENGTH_LONG).show();
+                }
+
+            } else {
+                Toast.makeText(_context, "Couldn't get any JSON data.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public ArrayList<InventoryItem> getAllItemsByChar(int charID) {
+        itemlist = new ArrayList<>();
+        SelectAllItemsFromCharacterBW sbw = new SelectAllItemsFromCharacterBW(_context);
+        try {
+            String result=sbw.execute(charID+"").get();
+            if (result != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(result);
+                    int success = jsonObj.getInt("success");
+                    if (success==1) {
+                        //TODO success
+                        JSONArray jsonItemsArray = jsonObj.getJSONArray("inventory");
+                        int arrayLength = jsonItemsArray.length();
+                        for (int i = 0; i < arrayLength; i++)
+                        {
+                            JSONObject jsonItem = jsonItemsArray.getJSONObject(i);
+                            InventoryItem im = new InventoryItem(jsonItem.getInt("cid"),jsonItem.getInt("iAC"),jsonItem.getString("iEquippedSpot"),
+                                    jsonItem.getInt("iHitDie"),jsonItem.getInt("iid"),jsonItem.getString("iName"),jsonItem.getString("iType"));
+                            itemlist.add(im);
+                        }
+                    } else if (success==0) {
+                        //TODO Failed
+                        Toast.makeText(_context, "No items found...", Toast.LENGTH_LONG).show();
+                    } else {
+                        //TODO Error
+                        Toast.makeText(_context, "Error.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(_context, "Connection Error.", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(_context, "Couldn't get any JSON data.", Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        Collections.sort(itemlist,InventoryItem.itemNameComparator);
+        return itemlist;
     }
 
 }

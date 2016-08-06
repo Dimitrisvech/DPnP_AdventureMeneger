@@ -4,6 +4,7 @@ package Interfaces;
 import java.util.ArrayList;
 
 import Data.Character;
+import Data.InventoryItem;
 
 /**
  * Created by Dimas on 04-May-16.
@@ -47,4 +48,25 @@ public interface IDataAgent {
      * @return Temp character saved by setLocalTemporaryCharacter()
      */
     Character getLocalTemporaryCharacter();
+
+    /**
+     * Inserts an item of a character
+     * @param item The item
+     * @return True if successful
+     */
+    boolean insertItem(InventoryItem item);
+
+    /**
+     * Delete an item from a character
+     * @param itemId The id of the item
+     * @return True if successful
+     */
+    boolean deleteItemFromChar(int itemId);
+
+    /**
+     * Gets all items by a character ID
+     * @param charId The characters ID
+     * @return ArrayList of item models
+     */
+    ArrayList<InventoryItem> getAllItemsByChar(int charId);
 }
