@@ -64,5 +64,6 @@
     <string name="label_zero">0</string>
     <string name="label_six">6</string>
     <string name="label_d">d</string>
+    <string name="label_non">----</string>
 
 </resources>

@@ -12,7 +12,7 @@ public class DiceLogic {
         Random random=new Random();
         ArrayList<Integer> result=new ArrayList();
         for (int i=0;i<numberOfRolls;i++) {
-            result.add(random.nextInt(diceType - 1)+1);
+            result.add(random.nextInt(diceType)+1);
         }
         return result;
     }

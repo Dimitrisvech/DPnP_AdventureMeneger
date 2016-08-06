@@ -38,20 +38,20 @@
             android:textSize="@dimen/text_size"
             android:inputType="number"
             android:text="@string/label_zero"/>
-        <ImageButton
+        <ImageView
             android:id="@+id/addHpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/basic_margin_left"
             android:layout_marginStart="@dimen/basic_margin_left"
-            android:src="@drawable/plus_button32"/>
-        <ImageButton
+            android:src="@drawable/plus_button45"/>
+        <ImageView
             android:id="@+id/subHpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/basic_margin_left"
             android:layout_marginStart="@dimen/basic_margin_left"
-            android:src="@drawable/minus_button32"/>
+            android:src="@drawable/minus_button45"/>
 
     </LinearLayout>
     <LinearLayout
@@ -88,20 +88,20 @@
             android:inputType="number"
             android:layout_gravity="center"
             android:text="@string/label_zero"/>
-        <ImageButton
+        <ImageView
             android:id="@+id/addManaButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/basic_margin_left"
             android:layout_marginStart="@dimen/basic_margin_left"
-            android:src="@drawable/plus_button32"/>
-        <ImageButton
+            android:src="@drawable/plus_button45"/>
+        <ImageView
             android:id="@+id/subManaButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/basic_margin_left"
             android:layout_marginStart="@dimen/basic_margin_left"
-            android:src="@drawable/minus_button32"/>
+            android:src="@drawable/minus_button45"/>
     </LinearLayout>
     <ImageView
         android:layout_width="match_parent"
@@ -146,7 +146,7 @@
             android:id="@+id/itemHitDie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_d0"
+            android:text="@string/label_non"
             android:textSize="@dimen/text_size"
             android:layout_marginLeft="@dimen/basic_margin_left"
             android:layout_marginStart="@dimen/basic_margin_left"
@@ -169,13 +169,13 @@
             android:layout_marginLeft="@dimen/basic_margin_left"
             android:layout_marginStart="@dimen/basic_margin_left"
             android:layout_gravity="center" />
-        <ImageButton
+        <ImageView
             android:id="@+id/attackButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/basic_margin_left"
             android:layout_marginStart="@dimen/basic_margin_left"
-            android:src="@drawable/sword_button32"
+            android:src="@drawable/sword_button45"
             />
     </LinearLayout>
     <ImageView
@@ -213,13 +213,13 @@
             android:inputType="number"
             android:layout_gravity="center" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/rollButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/basic_margin_left"
             android:layout_marginStart="@dimen/basic_margin_left"
-            android:src="@drawable/d20_roll_button"
+            android:src="@drawable/d20_roll_button45"
             />
     </LinearLayout>
     <ImageView
