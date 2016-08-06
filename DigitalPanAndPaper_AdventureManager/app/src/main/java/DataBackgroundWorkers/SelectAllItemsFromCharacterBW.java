@@ -19,7 +19,7 @@ public class SelectAllItemsFromCharacterBW extends AsyncTask<String,Void,String>
     Context context;
     ProgressDialog pDialog;
 
-    String cid;
+
 
 
     public SelectAllItemsFromCharacterBW(Context ctx) {
@@ -31,8 +31,7 @@ public class SelectAllItemsFromCharacterBW extends AsyncTask<String,Void,String>
     protected String doInBackground(String... params) {
 
 
-        cid = params[0];
-
+        String cid = params[0];
 
         String link;
         String data;
