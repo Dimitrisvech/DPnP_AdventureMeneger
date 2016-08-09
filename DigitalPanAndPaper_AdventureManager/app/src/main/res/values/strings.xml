@@ -24,6 +24,12 @@
     <string name="label_hp">HP: </string>
     <string name="label_mana">Mana: </string>
     <string name="label_ac">AC: </string>
+    <string name="label_item_name">Item Name</string>
+    <string name="label_item_type">Type: </string>
+    <string name="label_item_hitdie">Hitdie: </string>
+    <string name="label_item_ac">AC: </string>
+
+
 
 
     <!--Titles-->
@@ -38,6 +44,7 @@
     <string name="button_back">Back</string>
     <string name="button_save">Save</string>
     <string name="button_Manage">Manage..</string>
+    <string name="button_AddNewItem">Add New Item</string>
 
 
     <!--Errors-->

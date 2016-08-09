@@ -32,9 +32,9 @@ public class InsertItemBW extends AsyncTask<String,Void,String> {
         String result="";
 
         try {
-            data = "&cid=" + URLEncoder.encode(params[0], "UTF-8");
-            data += "&iAC=" + URLEncoder.encode(params[1], "UTF-8");
-            data += "&iEquippedSlot=" + URLEncoder.encode(params[2], "UTF-8");
+            data = "?cid=" + URLEncoder.encode(params[0], "UTF-8");
+            data += "&iAc=" + URLEncoder.encode(params[1], "UTF-8");
+            data += "&iEquippedSpot=" + URLEncoder.encode(params[2], "UTF-8");
             data += "&iHitDie=" + URLEncoder.encode(params[3], "UTF-8");
             data += "&iid=" + URLEncoder.encode(params[4], "UTF-8");
             data += "&iName=" + URLEncoder.encode(params[5], "UTF-8");

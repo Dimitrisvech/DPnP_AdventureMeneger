@@ -262,6 +262,7 @@ public class DataAgent implements IDataAgent {
                     item.getName(),item.getType()).get();
             if (insertResult != null) {
                 try {
+//                    insertResult = "{" + insertResult + "}";
                     JSONObject jsonObj = new JSONObject(insertResult);
                     int success = jsonObj.getInt("success");
                     if (success==1) {
@@ -273,7 +274,7 @@ public class DataAgent implements IDataAgent {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(_context, "Insert: Connection Error.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(_context, "Insert: Connection Error.\n"+insertResult, Toast.LENGTH_LONG).show();
                 }
 
             } else {
