@@ -11,6 +11,10 @@ public class Domain {
 
     //endregion
     public final static String weaponCode="Weapon";
+    public final static String armorCode="Armor";
+    public final static String consumableCode="Consumable";
+    public final static String shieldCode="Shield";
+    public final static String miscCode="Misc";
     //local: 192.168.1.12 Global: 77.138.40.118
     private final static String ip_address = "77.138.40.118";
     public final static String login_url = "http://"+ip_address+"/android_connect/get_user_by_name.php";

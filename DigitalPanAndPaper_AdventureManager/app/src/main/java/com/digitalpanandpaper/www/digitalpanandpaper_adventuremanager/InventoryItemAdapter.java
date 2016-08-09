@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import Data.Domain;
 import Data.InventoryItem;
 
 /**
@@ -17,14 +19,20 @@ import Data.InventoryItem;
  */
 public class InventoryItemAdapter extends ArrayAdapter<InventoryItem> {
 
-    public InventoryItemAdapter(Context context, int resource, ArrayList<InventoryItem> items) {
-        super(context, resource, items);
+    Context _context;
+    InventoryItem item;
+
+
+    public InventoryItemAdapter(Context context, ArrayList<InventoryItem> items) {
+        super(context, 0, items);
+        _context = context;
+
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        InventoryItem item = getItem(position);
+        item = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.element_item_list, parent, false);
@@ -37,9 +45,26 @@ public class InventoryItemAdapter extends ArrayAdapter<InventoryItem> {
         // Populate the data into the template view using the data object
         itemName.setText(item.getName());
         itemType.setText(item.getType());
-        itemHitdie.setText(item.getHitDie());
-        itemAC.setText(item.getArmorClass());
-        // Return rthe completed view to render on screen
+        itemHitdie.setText(String.valueOf(item.getHitDie()));
+        itemAC.setText(String.valueOf(item.getArmorClass()));
+
+        ImageView itemImage = (ImageView) convertView.findViewById(R.id.item_image);
+        if (item.getType().equalsIgnoreCase(Domain.weaponCode)){
+            itemImage.setImageResource(R.drawable.sword_button45);
+        }
+        else if (item.getType().equalsIgnoreCase(Domain.armorCode)) {
+            itemImage.setImageResource(R.drawable.armor45);
+        }
+        else if (item.getType().equalsIgnoreCase(Domain.shieldCode)) {
+            itemImage.setImageResource(R.drawable.shield45);
+        }
+        else if (item.getType().equalsIgnoreCase(Domain.miscCode)) {
+            itemImage.setImageResource(R.drawable.potion45);
+        }
+        else
+            itemImage.setImageResource(R.drawable.mystery45);
+
+        // Return the completed view to render on screen
         return convertView;
     }
 }

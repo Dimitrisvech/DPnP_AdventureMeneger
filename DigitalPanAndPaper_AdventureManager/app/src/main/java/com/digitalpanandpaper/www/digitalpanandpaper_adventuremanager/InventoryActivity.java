@@ -33,17 +33,21 @@ public class InventoryActivity extends AppCompatActivity {
     private void Init() {
         itemList = (ListView)findViewById(R.id.itemList);
         _dataAgent = DataAgentManager.getDataAgent(context);
-        _char = _dataAgent.getLocalTemporaryCharacter();
-     //   _itemList=_dataAgent.getAllItemsByChar(_char.getCid());
+        _char = new Character(0,9, "a", "a", "a", "a", 12,12,12);
+        _itemList=_dataAgent.getAllItemsByChar(_char.getCid());
+        // Create the adapter to convert the array to views
+        InventoryItemAdapter adapter = new InventoryItemAdapter(this, _itemList);
+//         Attach the adapter to a ListView
+        itemList.setAdapter(adapter);
 
-     //   itemList.
-
-   //     final Intent viewChange = new Intent(this,AddInventoryItemActivity.class);
-        Button buttonAddItem = (Button)findViewById(R.id.addNewItemButton);
-        buttonAddItem.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-     //           startActivity(viewChange);
-            }});
+//        itemList.
+//
+//        final Intent viewChange = new Intent(this,AddInventoryItemActivity.class);
+//        Button buttonAddItem = (Button)findViewById(R.id.addNewItemButton);
+//        buttonAddItem.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(viewChange);
+//            }});
     }
 }

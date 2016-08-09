@@ -4,9 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -21,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 import Data.Character;
 import Data.DataAgentManager;
@@ -34,7 +41,7 @@ public class MainActivity extends AppCompatActivity{
 
     private IDataAgent _dataAgent;
     private ScrollView _characterContainer;
-    private ScrollView _inventoryContainer;
+    private LinearLayout _inventoryContainer;
     private ScrollView _combatContainer;
     private Character _myCharacter;
     private ArrayList<InventoryItem> _inventory;
@@ -49,6 +56,11 @@ public class MainActivity extends AppCompatActivity{
         tabInit();
         characterDetailTabInit();
         combatTabInit();
+        inventoryListTabInit();
+        hideKeyboard(_characterContainer.getRootView());
+//        hideKeyboard(_characterContainer);
+//        hideKeyboard(_inventoryContainer);
+//        hideKeyboard(_combatContainer);
     }
 
     @Override
@@ -120,7 +132,7 @@ public class MainActivity extends AppCompatActivity{
     private void init(){
         _dataAgent = DataAgentManager.getDataAgent(_context);
         _characterContainer = (ScrollView)findViewById(R.id.Character);
-        _inventoryContainer = (ScrollView)findViewById(R.id.Inventory);
+        _inventoryContainer = (LinearLayout)findViewById(R.id.Inventory);
         _combatContainer = (ScrollView)findViewById(R.id.Combat);
         Intent intent = getIntent();
         String name = intent.getStringExtra("CharacterName");
@@ -128,6 +140,108 @@ public class MainActivity extends AppCompatActivity{
         _myCharacter = _dataAgent.getCharByName(name);
         _inventory = _dataAgent.getAllItemsByChar(_myCharacter.getCid());
 
+    }
+
+    private void inventoryListTabInit() {
+        //Get element to show
+        LayoutInflater layoutInflater =
+                (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View inventoryItems =  layoutInflater.inflate(R.layout.element_inventory,null);
+        LinearLayout invLayout = (LinearLayout)inventoryItems.findViewById(R.id.inventoryLayout);
+        ListView itemlist = (ListView)inventoryItems.findViewById(R.id.itemList);
+        invLayout.setVisibility(View.VISIBLE);
+        itemlist.setVisibility(View.VISIBLE);
+        ArrayList<InventoryItem> arrayOfItems = new ArrayList<InventoryItem>();
+        // Create the adapter to convert the array to views
+        InventoryItemAdapter adapter = new InventoryItemAdapter(this,_inventory );
+        // Attach the adapter to a ListView
+        itemlist.setAdapter(adapter);
+
+        final LinearLayout llAddNewItem = (LinearLayout) invLayout.findViewById(R.id.addItemDropdown);
+        Button bAddNewItem = (Button) invLayout.findViewById(R.id.addNewItemButton);
+        bAddNewItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText iname = (EditText) llAddNewItem.findViewById(R.id.edit_iname);
+                EditText itype = (EditText) llAddNewItem.findViewById(R.id.edit_itype);
+                EditText ihitdie = (EditText) llAddNewItem.findViewById(R.id.edit_ihitdie);
+                EditText iarmorclass = (EditText) llAddNewItem.findViewById(R.id.edit_iac);
+
+                Button bApply = (Button) llAddNewItem.findViewById(R.id.bAddItem_apply);
+                bApply.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText iname = (EditText) llAddNewItem.findViewById(R.id.edit_iname);
+                        EditText itype = (EditText) llAddNewItem.findViewById(R.id.edit_itype);
+                        EditText ihitdie = (EditText) llAddNewItem.findViewById(R.id.edit_ihitdie);
+                        EditText iarmorclass = (EditText) llAddNewItem.findViewById(R.id.edit_iac);
+                        if (iname.getText().toString().matches("")
+                                || itype.getText().toString().matches("")
+                                || itype.getText().toString().matches("")
+                                || itype.getText().toString().matches("")) {
+                            Toast.makeText(MainActivity.this, "One of the fields is empty", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            _dataAgent.insertItem(new InventoryItem(_myCharacter.getCid(),
+                                    Integer.valueOf(iarmorclass.getText().toString()),
+                                    itype.getText().toString(),
+                                    Integer.valueOf(ihitdie.getText().toString()),
+                                    0,
+                                    iname.getText().toString(),
+                                    itype.getText().toString()
+                            ));
+
+                            _inventory = _dataAgent.getAllItemsByChar(_myCharacter.getCid());
+                            ListView view = (ListView)_inventoryContainer.findViewById(R.id.itemList);
+                            InventoryItemAdapter invadapter = (InventoryItemAdapter)view.getAdapter();
+                            invadapter.clear();
+                            invadapter.addAll(_inventory);
+                            Spinner spview = (Spinner)_combatContainer.findViewById(R.id.weaponChooser);
+                            ArrayAdapter<InventoryItem> dataAdapter = (ArrayAdapter<InventoryItem>) spview.getAdapter();
+                            dataAdapter.clear();
+                            for (InventoryItem iweapon:_inventory
+                                    ) {
+                                if(iweapon.getType().contains(Domain.weaponCode)){
+                                    dataAdapter.add(iweapon);
+                                }
+                            }
+
+                            Toast.makeText(MainActivity.this, "Item Created", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                iname.setText("");
+                itype.setText("");
+                ihitdie.setText("");
+                iarmorclass.setText("");
+                itype.clearComposingText();
+                ihitdie.clearComposingText();
+                iarmorclass.clearComposingText();
+                if (llAddNewItem.getVisibility() == View.GONE)
+                    llAddNewItem.setVisibility(View.VISIBLE);
+                else
+                    llAddNewItem.setVisibility(View.GONE);
+            }
+        });
+
+        Button bCancel = (Button) llAddNewItem.findViewById(R.id.bAddItem_cancel);
+        bCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText iname = (EditText) llAddNewItem.findViewById(R.id.edit_iname);
+                EditText itype = (EditText) llAddNewItem.findViewById(R.id.edit_itype);
+                EditText ihitdie = (EditText) llAddNewItem.findViewById(R.id.edit_ihitdie);
+                EditText iarmorclass = (EditText) llAddNewItem.findViewById(R.id.edit_iac);
+                iname.setText("");
+                itype.setText("");
+                ihitdie.setText("");
+                iarmorclass.setText("");
+                llAddNewItem.setVisibility(View.GONE);
+            }
+        });
+
+        _inventoryContainer.addView(inventoryItems);
+        registerForContextMenu(itemlist);
     }
 
     private void characterDetailTabInit(){
@@ -325,4 +439,148 @@ public class MainActivity extends AppCompatActivity{
             }});
         _combatContainer.addView(combat);
     }
+
+   @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+       inflater.inflate(R.menu.contextmenu_inventory_item, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        final InventoryItem invItem = _inventory.get(info.position);
+        switch (item.getItemId()) {
+            case R.id.remove_item:
+                _dataAgent.deleteItemFromChar(invItem.getId());
+                _inventory = _dataAgent.getAllItemsByChar(_myCharacter.getCid());
+                ListView view = (ListView)_inventoryContainer.findViewById(R.id.itemList);
+                InventoryItemAdapter invadapter = (InventoryItemAdapter)view.getAdapter();
+                invadapter.clear();
+                invadapter.addAll(_inventory);
+                Spinner spview = (Spinner)_combatContainer.findViewById(R.id.weaponChooser);
+                ArrayAdapter<InventoryItem> dataAdapter = (ArrayAdapter<InventoryItem>) spview.getAdapter();
+                dataAdapter.clear();
+                for (InventoryItem iweapon:_inventory
+                        ) {
+                    if(iweapon.getType().contains(Domain.weaponCode)){
+                        dataAdapter.add(iweapon);
+                    }
+                }
+                dataAdapter.notifyDataSetChanged();
+                Toast.makeText(MainActivity.this, "Item removed from inventory", Toast.LENGTH_SHORT).show();
+//                View view2 = (View) _combatContainer.findViewById(R.id.)
+//                adapter.clear();
+//                adapter.addAll();
+                return true;
+            case R.id.edit_item:
+                LinearLayout llAddNewItem = (LinearLayout) _inventoryContainer.findViewById(R.id.addItemDropdown);
+                llAddNewItem.setVisibility(View.VISIBLE);
+                EditText iname = (EditText) llAddNewItem.findViewById(R.id.edit_iname);
+                EditText itype = (EditText) llAddNewItem.findViewById(R.id.edit_itype);
+                EditText ihitdie = (EditText) llAddNewItem.findViewById(R.id.edit_ihitdie);
+                EditText iarmorclass = (EditText) llAddNewItem.findViewById(R.id.edit_iac);
+                iname.setText(invItem.getName());
+                itype.setText(invItem.getType());
+                ihitdie.setText(String.valueOf(invItem.getHitDie()));
+                iarmorclass.setText(String.valueOf(invItem.getArmorClass()));
+
+                Button bApply = (Button) llAddNewItem.findViewById(R.id.bAddItem_apply);
+                bApply.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LinearLayout llAddNewItem = (LinearLayout) _inventoryContainer.findViewById(R.id.addItemDropdown);
+                        EditText iname = (EditText) llAddNewItem.findViewById(R.id.edit_iname);
+                        EditText itype = (EditText) llAddNewItem.findViewById(R.id.edit_itype);
+                        EditText ihitdie = (EditText) llAddNewItem.findViewById(R.id.edit_ihitdie);
+                        EditText iarmorclass = (EditText) llAddNewItem.findViewById(R.id.edit_iac);
+                        if (iname.getText().toString().matches("")
+                                || itype.getText().toString().matches("")
+                                || itype.getText().toString().matches("")
+                                || itype.getText().toString().matches("")) {
+                            Toast.makeText(MainActivity.this, "One of the fields is empty", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            _dataAgent.deleteItemFromChar(invItem.getId());
+                            _dataAgent.insertItem(new InventoryItem(invItem.getCid(),
+                                    Integer.valueOf(iarmorclass.getText().toString()),
+                                    invItem.getEquippedSpot(),
+                                    Integer.valueOf(ihitdie.getText().toString()),
+                                    0,
+                                    iname.getText().toString(),
+                                    itype.getText().toString()
+                            ));
+                            _inventory = _dataAgent.getAllItemsByChar(_myCharacter.getCid());
+                            ListView view = (ListView)_inventoryContainer.findViewById(R.id.itemList);
+                            InventoryItemAdapter invadapter = (InventoryItemAdapter)view.getAdapter();
+                            invadapter.clear();
+                            invadapter.addAll(_inventory);
+                            Spinner spview = (Spinner)_combatContainer.findViewById(R.id.weaponChooser);
+                            ArrayAdapter<InventoryItem> dataAdapter = (ArrayAdapter<InventoryItem>) spview.getAdapter();
+                            dataAdapter.clear();
+                            for (InventoryItem iweapon:_inventory
+                                    ) {
+                                if(iweapon.getType().contains(Domain.weaponCode)){
+                                    dataAdapter.add(iweapon);
+                                }
+                            }
+                            Toast.makeText(MainActivity.this, "Item Modified", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Hide keyboard on touch of UI
+     */
+    public void hideKeyboard(View view) {
+
+        if (view instanceof ViewGroup) {
+
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+
+                View innerView = ((ViewGroup) view).getChildAt(i);
+
+                hideKeyboard(innerView);
+            }
+        }
+        if (!(view instanceof EditText)) {
+
+            view.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(v);
+                    return false;
+                }
+
+            });
+        }
+
+    }
+
+    /**
+     * Hide keyboard while focus is moved
+     */
+    public void hideSoftKeyboard(View view) {
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) _context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (inputManager != null) {
+                if (android.os.Build.VERSION.SDK_INT < 11) {
+                    inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                } else {
+                    if (this.getCurrentFocus() != null) {
+                        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
+                    view.clearFocus();
+                }
+                view.clearFocus();
+            }
+        }
+    }
+
 }
